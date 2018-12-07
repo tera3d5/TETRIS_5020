@@ -1,6 +1,13 @@
-#include<Windows.h>
-#include<d3d11.h>
-#include<SimpleMath.h>
+#include <Windows.h>
+#include <d3d11.h>
+#include <SimpleMath.h>
+#include "sprite.h"
+#include "direct3d.h"
+#include "common.h"
+#include "tetris.h"
+#include "keyboard.h"
+#include "pad.h"
+
 
 
 // 名前空間
@@ -10,7 +17,12 @@ using namespace SimpleMath;
 // 列挙体
 enum
 {
-
+    kTitleInit,
+    kTitleUpdate,
+    kGameInit,
+    kGameUpdate,
+    kResultInit,
+    kResultUpdate
 };
 
 
@@ -77,11 +89,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
 
 
     // Direct3D初期化
-    /*if( !Direct3D::init( hWnd ) )
+    if( !Direct3D::init( hWnd ) )
     {
         // エラー
         return 0;
-    }*/
+    }
 
     // COMライブラリの初期化
     if( FAILED( CoInitializeEx( NULL, COINIT_MULTITHREADED ) ) )
@@ -90,25 +102,25 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
         return 0;
     }
     // Spriteクラス初期化
-    /*if( !Sprite::init() )
+    if( !Sprite::init() )
     {
         // エラー
         return 0;
-    }*/
+    }
 
     // Keyboardクラスの初期化
-    /*if( !Key::init() )
+    if( !Key::init() )
     {
         //エラー
         return 0;
-    }*/
+    }
 
     // Commonクラス初期化
-    /*if( !Common::init() )
+    if( !Common::init() )
     {
         // エラー
         return 0;
-    }*/
+    }
 
 
     // Fontクラスの初期化
@@ -151,21 +163,22 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
 
 
     // 時間計測
-    /*DWORD t1, t2, t3 = 0L, dt;
+    DWORD t1, t2, t3 = 0L, dt;
     t1 = timeGetTime();
-    t2 = timeGetTime();*/
+    t2 = timeGetTime();
 
     // 現在の作業番号
-    //int work_no = KTitleInit;
+    int work_no = kGameInit;
 
     // シーンクラス変数
     //Title title;
     //Game game;
+    Tetris tetris;
 
 
     //Result result;
 
-    /*while( msg.message != WM_QUIT )
+   while( msg.message != WM_QUIT )
     {
         // メッセージ処理
         if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
@@ -189,126 +202,128 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
                 Pad::update();
 
                 // Adxクラス更新
-                Adx::update();
+                //Adx::update();
 
                 // シーン処理
                 switch( work_no )
                 {
-                case KTitleInit:
+                case kTitleInit:
                     // タイトルクラス初期化
-                    if( !title.init() )
+                    /*if( !title.init() )
                     {
                         // エラー
                         PostQuitMessage( 0 );
-                    }
+                    }*/
 
                     // 次の処理へ
-                    work_no = KTitleUpdate;
+                    work_no = kTitleUpdate;
                     break;
 
-                case KTitleUpdate:
+                case kTitleUpdate:
                     // タイトルクラス更新処理
-                    if( !title.update() )
+                    /*if( !title.update() )
                     {
                         // falseが帰ってきたら次のシーンへ
                         title.destroy();
-                        work_no = KGameInit;
-                    }
+                        work_no = kGameInit;
+                    }*/
 
                     break;
 
-                case KGameInit:
+                case kGameInit:
                     // ゲームクラス初期化
-                    if( !game.init() )
+                    if( !tetris.init() )
                     {
                         // エラー
                         PostQuitMessage( 0 );
                     }
 
                     // 次の処理へ
-                    work_no = KGameUpdate;
+                    work_no = kGameUpdate;
                     break;
 
-                case KGameUpdate:
+                case kGameUpdate:
                     // ゲームクラス更新
-                    if( !game.update() )
+                    if( !tetris.update() )
                     {
                         // falseが帰ってきたら次のシーンへ
-                        game.destroy();
-                        work_no = KResultInit;
+                        tetris.destroy();
+                        work_no = kResultInit;// kResultInit;
                     }
                     break;
 
 
-                case KResultInit:
+                case kResultInit:
                     // リザルト画面初期化
-                    if( !result.init() )// ←2pが勝利した場合"2"を代入
+                    /*if( !result.init() )// ←2pが勝利した場合"2"を代入
                     {
                         // エラー
                         PostQuitMessage( 0 );
 
-                    }
+                    }*/
 
                     // 次の処理へ
-                    work_no = KResultUpdate;
+                    work_no = kResultUpdate;
                     break;
 
-                case KResultUpdate:
+                case kResultUpdate:
                     // リザルト画面更新
-                    if( !result.update( Field::getResult() ) )
+                    /*if( !result.update()
                     {
                         // falseが帰ってきたらタイトルへ
                         result.destroy();
                         work_no = KTitleInit;
-                    }
+                    }*/
                     break;
 
+                    }
 
 
-                }
+
+                
 
                 //画面クリア
-                //Direct3D::clear();
+                Direct3D::clear();
 
                 // スプライト描画開始
-                //Sprite::begin();
+                Sprite::begin();
 
                 switch( work_no )
                 {
-                case KTitleUpdate:
-                    title.draw();
+                case kTitleUpdate:
+                    //title.draw();
                     break;
 
-                case KGameUpdate:
-                    game.draw();
+                case kGameUpdate:
+                    tetris.draw();
                     break;
 
-                case KResultUpdate:
-                    result.draw();
+                case kResultUpdate:
+                    //result.draw();
                     break;
                 }
 
 
                 // スプライト描画終了
-                //Sprite::end();
+                Sprite::end();
 
                 // 描画更新
-                //Direct3D::present();
+                Direct3D::present();
             }
 
         }
-    }*/
+    }
 
     // COMライブラリの解放
     CoUninitialize();
 
     // インターフェイスの解放(確保した順の逆に開放していく)
     //title.destroy();
-    //game.destroy();
+    tetris.destroy();
     //Font::destroy();
-    //Common::destroy();
-    //Sprite::destroy();
-    //Direct3D::destroy();
+    Common::destroy();
+    Sprite::destroy();
+    Direct3D::destroy();
     //Adx::destroy();
 
     return 0;
