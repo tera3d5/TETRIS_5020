@@ -255,7 +255,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
 
                 case kResultInit:
                     // リザルト画面初期化
-                    /*if( !result.init() )// ←2pが勝利した場合"2"を代入
+                    /*if( !result.init() )
                     {
                         // エラー
                         PostQuitMessage( 0 );
