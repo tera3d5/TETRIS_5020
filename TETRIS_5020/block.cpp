@@ -2,6 +2,19 @@
 #include "error.h"
 
 
+enum
+{
+    water,
+    orange,
+    green,
+    red,
+    blue,
+    brown,
+    purple,
+    black
+};
+int piece_color = water;
+
 
 RECT Block::send(int r)
 {
@@ -79,4 +92,9 @@ RECT Block::send(int r)
         break;
 
     }
+}
+
+void Block::block_return( int r )
+{
+
 }

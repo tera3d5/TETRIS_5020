@@ -17,24 +17,13 @@ Tetris::Tetris()
 
 namespace
 {
-    const int piece_width = 23;
-    const int piece_height = 23;
+    const int piece_width = 25;
+    const int piece_height = 25;
     const int map_width = 230;
     const int map_height = 483;
 }
 
-enum 
-{
-    water,
-    orange,
-    green,
-    red,
-    blue,
-    brown,
-    purple,
-    black
-};
-int piece_color = water;
+
 
 
 
@@ -46,13 +35,19 @@ bool Tetris::init()
         Error::showDialog( "ÉeÉgÉäÉXÇÃëfçﬁÇ™Ç»Ç¢ÇÒÇ∂Ç·Å`" );
         return false;
     }
-    //block.init();
+    
+    block_move_x_init = block_move_x = 636.0F, block_move_y_init = block_move_y = 174.0F;
+
 
     for( int i = 0; i < 9; i++ )
         for( int j = 0; j < 20; j++ )
             tetris_box[ i ][ j ] = 0;
     srand( (unsigned int) time (NULL) );
-    block_r = rand() % 7;
+    block_c = rand() % 7;
+
+    t3 = 0L;
+    t1 = timeGetTime();
+    t2 = timeGetTime();
 
     return true;
 }
@@ -70,6 +65,9 @@ bool Tetris::update()
 
 void Tetris::draw()
 {
+    t1 = timeGetTime();
+    dt = (t1 - t2) + t3;
+
     RECT rect_view; // îwåi
     rect_view.top = 0;
     rect_view.left = 0;
@@ -78,9 +76,15 @@ void Tetris::draw()
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
 
 
-    Sprite::draw( texture_, Vector2( 636.0F, 174.0F ), &block.send( block_r ) );
-   
+    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
+    if( dt > 1000 )
+    {
+        t2 = t1;         
+        t3 = dt % 1000;
 
+        
+        block_move_y += piece_height;
+    }
 }
 
 void Tetris::destroy()

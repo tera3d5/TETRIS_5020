@@ -10,5 +10,6 @@ private:
 
 
 public:
-    RECT send(int r);
+    RECT send(int r); // 描画範囲を返す(仮）
+    void block_return( int r ); // ブロック部のすべてを処理
 };
