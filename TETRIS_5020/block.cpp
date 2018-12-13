@@ -94,7 +94,20 @@ RECT Block::send(int r)
     }
 }
 
-void Block::block_return( int r )
+void Block::box_return( int i,int j,int k )
 {
 
+    box[ i ][ j ] -= 1;
+
+    switch( k )
+    {
+    case 0:
+        box[ i - 1 ][ j ] += 1;
+
+    case 1:
+        box[ i + 1 ][ j ] += 1;
+
+    case 2:
+        box[ i ][ j + 1 ] += 1;
+    }
 }

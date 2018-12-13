@@ -6,10 +6,10 @@
 class Block
 {
 private:
-    //ID3D11ShaderResourceView* texture_piece_;
+    int box[ 9 ][ 20 ];
 
 
 public:
     RECT send(int r); // 描画範囲を返す(仮）
-    void block_return( int r ); // ブロック部のすべてを処理
+    void box_return( int i, int j,int k ); // 配列書き換え(box_x, box_y, type_no)
 };

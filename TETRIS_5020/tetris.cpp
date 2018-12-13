@@ -12,15 +12,19 @@ Block block;
 
 Tetris::Tetris()
 {
-    
+   
 }
 
 namespace
 {
-    const int piece_width = 25;
-    const int piece_height = 25;
-    const int map_width = 230;
-    const int map_height = 483;
+    const float piece_width = 25.0F;
+    const float piece_height = 25.0F;
+    const float map_width = 230.0F;
+    const float map_height = 483.0F;
+    const float map_limit_left = 510.0F;
+    const float map_limit_right = 760.0F;
+    const float map_limit_top = 174.0F;
+    const float map_limit_bottom = 695.0F;
 }
 
 
@@ -45,28 +49,71 @@ bool Tetris::init()
     srand( (unsigned int) time (NULL) );
     block_c = rand() % 7;
 
-    t3 = 0L;
-    t1 = timeGetTime();
-    t2 = timeGetTime();
+    t3_f = t3_m = 0L;
+    t1_f = t2_f = t1_m = t2_m = timeGetTime();
+
+    tetris_key = 0;
 
     return true;
 }
 
-bool Tetris::update()
+void Tetris::update()
 {
+    const Keyboard::State key = Key::getState();
     const GamePad::State pad = Pad::getState();
 
-    if( Key::getState().Escape || pad.buttons.start )
+    t1_m = timeGetTime();
+    dt_m = (t1_m - t2_m) + t3_m;
+
+
+    if( dt_m > 250 )
     {
-        return false;
+
+        t2_m = t1_m;
+        t3_m = dt_m % 250;
     }
-    return true;
+
+
+    if( key.Left || pad.dpad.left ) // case 0
+    {
+        if( ((block_move_x -= piece_width) >= map_limit_left) )
+            block_move_x -= piece_width;
+    }
+
+    if( key.Right || pad.dpad.right ) // 1
+    {
+        if( !((block_move_x += (piece_width * 2)) > map_limit_right) )
+            block_move_x += piece_width;
+    }
+
+    if( key.Down || pad.dpad.down ) // 2
+    {
+        if( !((block_move_y += (piece_height * 2)) < map_limit_bottom) )
+            block_move_y += piece_height;
+    }
+
+    if( key.Up || pad.dpad.up ) // 3
+    {
+        tetris_key = 1;
+    }
+        
+
+    
+
+
+    if( key.Escape || pad.buttons.start )
+    {
+        tetris_key = 1;
+        //PostQuitMessage( 0 );
+    }
+
+    
 }
 
 void Tetris::draw()
 {
-    t1 = timeGetTime();
-    dt = (t1 - t2) + t3;
+    t1_f = timeGetTime();
+    dt_f = (t1_f - t2_f) + t3_f;
 
     RECT rect_view; // ”wŒi
     rect_view.top = 0;
@@ -77,10 +124,10 @@ void Tetris::draw()
 
 
     Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
-    if( dt > 1000 )
+    if( dt_f > 1000 )
     {
-        t2 = t1;         
-        t3 = dt % 1000;
+        t2_f = t1_f;         
+        t3_f = dt_f % 1000;
 
         
         block_move_y += piece_height;
