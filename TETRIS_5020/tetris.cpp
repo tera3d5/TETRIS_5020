@@ -21,8 +21,8 @@ namespace
     const float piece_height = 25.0F;
     const float map_width = 230.0F;
     const float map_height = 483.0F;
-    const float map_limit_left = 510.0F;
-    const float map_limit_right = 760.0F;
+    const float map_limit_left = 535.0F;
+    const float map_limit_right = 735.0F;
     const float map_limit_top = 174.0F;
     const float map_limit_bottom = 695.0F;
 }
@@ -52,7 +52,8 @@ bool Tetris::init()
     t3_f = t3_m = 0L;
     t1_f = t2_f = t1_m = t2_m = timeGetTime();
 
-    tetris_key = 0;
+    tetris_key = move_key = 0;
+    move_time = 0;
 
     return true;
 }
@@ -66,26 +67,55 @@ void Tetris::update()
     dt_m = (t1_m - t2_m) + t3_m;
 
 
-    if( dt_m > 250 )
+    /*if( dt_m > 250 )
     {
 
         t2_m = t1_m;
         t3_m = dt_m % 250;
-    }
+    }*/
 
 
-    if( key.Left || pad.dpad.left ) // case 0
+    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left ) ) // case 0
     {
-        if( ((block_move_x -= piece_width) >= map_limit_left) )
+        
+        if( move_key == 0 )
             block_move_x -= piece_width;
-    }
+       
+        move_key = 1;
+        move_time++;
+        if( move_time > 10 && (block_move_x > map_limit_left) )
+        {
+            block_move_x -= piece_width;
+            move_time = 0;
+        }
 
-    if( key.Right || pad.dpad.right ) // 1
+        
+    }
+    /*if( !(key.Left || pad.dpad.left) && move_key == 1 )
     {
-        if( !((block_move_x += (piece_width * 2)) > map_limit_right) )
+        move_time = 0;
+        move_key = 0;
+    }*/
+
+
+
+    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right) ) // case 0
+    {
+
+        if( move_key == 0 )
             block_move_x += piece_width;
+
+        move_key = 1;
+        move_time++;
+        if( move_time > 10 && (block_move_x < map_limit_right))
+        {
+            block_move_x += piece_width;
+            move_time = 0;
+        }
+
     }
 
+    
     if( key.Down || pad.dpad.down ) // 2
     {
         if( !((block_move_y += (piece_height * 2)) < map_limit_bottom) )
@@ -97,16 +127,21 @@ void Tetris::update()
         tetris_key = 1;
     }
         
+    if( !(key.Right || pad.dpad.right || key.Left || pad.dpad.left || key.Up || pad.dpad.up || key.Down || pad.dpad.down) && move_key == 1 )
+    {
+        move_time = 0;
+        move_key = 0;
+    }
 
     
 
 
-    if( key.Escape || pad.buttons.start )
+    /*if( key.Escape || pad.buttons.start )
     {
         tetris_key = 1;
         //PostQuitMessage( 0 );
-    }
-
+    }*/
+    
     
 }
 

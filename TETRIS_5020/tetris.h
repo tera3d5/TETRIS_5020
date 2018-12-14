@@ -15,7 +15,8 @@ private:
     int move_i, move_j; // ”z—ñ
     DWORD t1_f, t2_f, t3_f, dt_f; // freefall
     DWORD t1_m, t2_m, t3_m, dt_m;  // manual
-    
+    char move_key;
+    char move_time;
     
 
 public:
