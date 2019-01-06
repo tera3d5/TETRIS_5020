@@ -244,12 +244,12 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
 
                 case kGameUpdate:
                     // ゲームクラス更新
-                    if( !tetris.update() )
-                    {
-                        // falseが帰ってきたら次のシーンへ
-                        tetris.destroy();
-                        work_no = kResultInit;// kResultInit;
-                    }
+                    tetris.update();
+                        if( tetris.tetris_key == 1 )
+                        {
+                            tetris.destroy();
+                            work_no = kResultInit;// kResultInit;
+                        }
                     break;
 
 
@@ -341,16 +341,16 @@ LRESULT CALLBACK WinProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
         EndPaint( hWnd, &ps );
         break;
 
-        //break;
+        
 
     case WM_SYSKEYDOWN:
     case WM_SYSKEYUP:
     case WM_KEYUP:
-        //Keyboard::ProcessMessage( Msg, wParam, lParam );
+        Keyboard::ProcessMessage( Msg, wParam, lParam );
         break;
 
     case WM_KEYDOWN:
-        //Keyboard::ProcessMessage( Msg, wParam, lParam );
+        Keyboard::ProcessMessage( Msg, wParam, lParam );
         switch( wParam )
         {
         case VK_ESCAPE:
@@ -374,7 +374,7 @@ LRESULT CALLBACK WinProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
     case WM_XBUTTONDOWN:
     case WM_XBUTTONUP:
     case WM_MOUSEHOVER:
-        //Keyboard::ProcessMessage( Msg, wParam, lParam );
+        Keyboard::ProcessMessage( Msg, wParam, lParam );
         break;
 
     case WM_DESTROY:

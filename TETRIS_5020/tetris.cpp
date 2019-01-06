@@ -1,29 +1,33 @@
+#include <ctime>
 #include "tetris.h"
 #include "sprite.h"
+#include "block.h"
 #include "keyboard.h"
 #include "pad.h"
 #include "error.h"
 
 
 Texture texture;
+Block block;
 
 Tetris::Tetris()
 {
-    
+   
 }
 
-enum 
+namespace
 {
-    water,
-    orange,
-    green,
-    red,
-    blue,
-    brown,
-    purple,
-    black
-};
-int piece_color = water;
+    const float piece_width = 25.0F;
+    const float piece_height = 25.0F;
+    const float map_width = 230.0F;
+    const float map_height = 483.0F;
+    const float map_limit_left = 535.0F;
+    const float map_limit_right = 735.0F;
+    const float map_limit_top = 174.0F;
+    const float map_limit_bottom = 695.0F;
+}
+
+
 
 
 
@@ -32,108 +36,137 @@ bool Tetris::init()
     texture_ = texture.load( L"Tetris11_SingleT.png" );
     if( texture_ == NULL )
     {
-        Error::showDialog( "ÉeÉgÉäÉXÇÃâÊñ Ç™Ç»Ç¢ÇÒÇ∂Ç·Å`" );
+        Error::showDialog( "ÉeÉgÉäÉXÇÃëfçﬁÇ™Ç»Ç¢ÇÒÇ∂Ç·Å`" );
         return false;
     }
+    
+    block_move_x_init = block_move_x = 636.0F, block_move_y_init = block_move_y = 174.0F;
 
 
     for( int i = 0; i < 9; i++ )
         for( int j = 0; j < 20; j++ )
             tetris_box[ i ][ j ] = 0;
+    srand( (unsigned int) time (NULL) );
+    block_c = rand() % 7;
+
+    t3_f = t3_m = 0L;
+    t1_f = t2_f = t1_m = t2_m = timeGetTime();
+
+    tetris_key = move_key = 0;
+    move_time = 0;
 
     return true;
 }
 
-bool Tetris::update()
+void Tetris::update()
 {
+    const Keyboard::State key = Key::getState();
     const GamePad::State pad = Pad::getState();
 
-    if( Key::getState().Escape || pad.buttons.start )
+    t1_m = timeGetTime();
+    dt_m = (t1_m - t2_m) + t3_m;
+
+
+    /*if( dt_m > 250 )
     {
-        return false;
+
+        t2_m = t1_m;
+        t3_m = dt_m % 250;
+    }*/
+
+
+    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left ) ) // case 0
+    {
+        
+        if( move_key == 0 )
+            block_move_x -= piece_width;
+       
+        move_key = 1;
+        move_time++;
+        if( move_time > 10 && (block_move_x > map_limit_left) )
+        {
+            block_move_x -= piece_width;
+            move_time = 0;
+        }
+
+        
     }
-    return true;
+    /*if( !(key.Left || pad.dpad.left) && move_key == 1 )
+    {
+        move_time = 0;
+        move_key = 0;
+    }*/
+
+
+
+    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right) ) // case 0
+    {
+
+        if( move_key == 0 )
+            block_move_x += piece_width;
+
+        move_key = 1;
+        move_time++;
+        if( move_time > 10 && (block_move_x < map_limit_right))
+        {
+            block_move_x += piece_width;
+            move_time = 0;
+        }
+
+    }
+
+    
+    if( key.Down || pad.dpad.down ) // 2
+    {
+        if( !((block_move_y += (piece_height * 2)) < map_limit_bottom) )
+            block_move_y += piece_height;
+    }
+
+    if( key.Up || pad.dpad.up ) // 3
+    {
+        tetris_key = 1;
+    }
+        
+    if( !(key.Right || pad.dpad.right || key.Left || pad.dpad.left || key.Up || pad.dpad.up || key.Down || pad.dpad.down) && move_key == 1 )
+    {
+        move_time = 0;
+        move_key = 0;
+    }
+
+    
+
+
+    /*if( key.Escape || pad.buttons.start )
+    {
+        tetris_key = 1;
+        //PostQuitMessage( 0 );
+    }*/
+    
+    
 }
 
 void Tetris::draw()
 {
+    t1_f = timeGetTime();
+    dt_f = (t1_f - t2_f) + t3_f;
+
     RECT rect_view; // îwåi
     rect_view.top = 0;
     rect_view.left = 0;
     rect_view.right = 1280;
     rect_view.bottom = 720;
-
-	switch (piece_color)
-	{
-	case water:
-		RECT rect_piece_water;
-		rect_piece_water.top = 957;
-		rect_piece_water.left = 688;
-		rect_piece_water.right = 713;
-		rect_piece_water.bottom = 982;
-		break;
-
-	case orange:
-		RECT rect_piece_orange;
-		rect_piece_orange.top = 957;
-		rect_piece_orange.left = 713;
-		rect_piece_orange.right = 738;
-		rect_piece_orange.bottom = 982;
-		break;
-
-	case green:
-		RECT rect_piece_green;
-		rect_piece_green.top = 957;
-		rect_piece_green.left = 738;
-		rect_piece_green.right = 763;
-		rect_piece_green.bottom = 982;
-		break;
-
-	case red:
-		RECT rect_piece_red;
-		rect_piece_red.top = 957;
-		rect_piece_red.left = 763;
-		rect_piece_red.right = 788;
-		rect_piece_red.bottom = 982;
-		break;
-
-	case blue:
-		RECT rect_piece_blue;
-		rect_piece_blue.top = 957;
-		rect_piece_blue.left = 788;
-		rect_piece_blue.right = 813;
-		rect_piece_blue.bottom = 982;
-		break;
-
-	case brown:
-		RECT rect_piece_brown;
-		rect_piece_brown.top = 957;
-		rect_piece_brown.left = 813;
-		rect_piece_brown.right = 838;
-		rect_piece_brown.bottom = 982;
-		break;
-
-	case purple:
-		RECT rect_piece_purple;
-		rect_piece_purple.top = 957;
-		rect_piece_purple.left = 838;
-		rect_piece_purple.right = 863;
-		rect_piece_purple.bottom = 982;
-		break;
-
-	case black:
-		RECT rect_piece_black;
-		rect_piece_black.top = 957;
-		rect_piece_black.left = 863;
-		rect_piece_black.right = 888;
-		rect_piece_black.bottom = 982;
-		break;
-	}
-    
-
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
-    Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), piece_color );
 
+
+    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
+    if( dt_f > 1000 )
+    {
+        t2_f = t1_f;         
+        t3_f = dt_f % 1000;
+
+        
+        block_move_y += piece_height;
+    }
 }
 
 void Tetris::destroy()

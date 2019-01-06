@@ -153,7 +153,6 @@
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pad.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="tetris.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="error.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="pad.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="tetris.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="sprite.h" />
