@@ -7,7 +7,6 @@
 
 class Tetris
 {
-private:
     ID3D11ShaderResourceView* texture_;
     int tetris_box[ 9 ][ 20 ];
 
