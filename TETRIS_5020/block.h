@@ -15,6 +15,7 @@ class Block
 	RECT purple_piece_range_ = { 957,838,863,982 };
 	RECT black_piece_range_  = { 957,863,888,982 };
     RECT brank_piece_range_  = { 1480,970,995,1505 };
+    //RECT piece = { 512,174,199,537 };
 
 	
 
