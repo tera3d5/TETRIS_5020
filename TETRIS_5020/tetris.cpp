@@ -158,7 +158,7 @@ void Tetris::draw()
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
 
 
-    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
+    //Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
     if( dt_f > 1000 )
     {
         t2_f = t1_f;         
