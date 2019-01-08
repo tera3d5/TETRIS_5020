@@ -8,7 +8,7 @@
 class Tetris
 {
     ID3D11ShaderResourceView* texture_;
-    int tetris_box[ 9 ][ 20 ];
+    int tetris_box[ 9 ][ 20 ]; // 保存用
     int block_c; //ブロックの色
     float block_move_x, block_move_x_init, block_move_y, block_move_y_init; // ブロック座標
     int move_i, move_j; // 配列
@@ -22,6 +22,7 @@ public:
     int tetris_key;
 
     Tetris();
+    ~Tetris();
     bool init();
     void update();
     void draw();

@@ -12,18 +12,24 @@ Block block;
 
 Tetris::Tetris()
 {
-   
+    for( int i = 0; i < 9; i++ )
+        for( int j = 0; j < 20; j++ )
+            tetris_box[ i ][ j ] = 0;
+}
+Tetris::~Tetris()
+{
+    tetris_box;
 }
 
 namespace
 {
-    const float piece_width = 25.0F;
-    const float piece_height = 25.0F;
-    const float map_width = 230.0F;
-    const float map_height = 483.0F;
-    const float map_limit_left = 535.0F;
-    const float map_limit_right = 735.0F;
-    const float map_limit_top = 174.0F;
+    const float piece_width      = 25.0F;
+    const float piece_height     = 25.0F;
+    const float map_width        = 230.0F;
+    const float map_height       = 483.0F;
+    const float map_limit_left   = 535.0F;
+    const float map_limit_right  = 735.0F;
+    const float map_limit_top    = 174.0F;
     const float map_limit_bottom = 695.0F;
 }
 
@@ -158,7 +164,7 @@ void Tetris::draw()
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
 
 
-    //Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &block.send( block_c ) );
+    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &Block::water_piece_range_ );
     if( dt_f > 1000 )
     {
         t2_f = t1_f;         
