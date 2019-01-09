@@ -11,10 +11,8 @@ Texture texture;
 Block block;
 
 Tetris::Tetris()
-{
-    for( int i = 0; i < 9; i++ )
-        for( int j = 0; j < 20; j++ )
-            tetris_box[ i ][ j ] = 0;
+{         
+    
 }
 Tetris::~Tetris()
 {
@@ -53,7 +51,7 @@ bool Tetris::init()
         for( int j = 0; j < 20; j++ )
             tetris_box[ i ][ j ] = 0;
     srand( (unsigned int) time (NULL) );
-    block_c = rand() % 7;
+    block_color = rand() % 7;
 
     t3_f = t3_m = 0L;
     t1_f = t2_f = t1_m = t2_m = timeGetTime();
@@ -156,15 +154,54 @@ void Tetris::draw()
     t1_f = timeGetTime();
     dt_f = (t1_f - t2_f) + t3_f;
 
-    RECT rect_view; // ”wŒi
-    rect_view.top = 0;
-    rect_view.left = 0;
-    rect_view.right = 1280;
-    rect_view.bottom = 720;
+    
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
 
 
-    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &Block::water_piece_range_ );
+
+    
+        switch( block_color )
+        {
+        case Tetris::water:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
+            break;
+
+        case Tetris::orange:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
+            break;
+
+        case Tetris::green:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
+            break;
+
+        case Tetris::red:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
+            break;
+
+        case Tetris::blue:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
+            break;
+
+        case Tetris::brown:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
+            break;
+
+        case Tetris::purple:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
+            break;
+
+        case Tetris::black:
+            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
+            break;
+
+        case Tetris::brank:
+
+            break;
+        default:
+            break;
+        }
+        
+    
     if( dt_f > 1000 )
     {
         t2_f = t1_f;         
