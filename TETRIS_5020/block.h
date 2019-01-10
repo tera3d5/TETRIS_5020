@@ -5,18 +5,24 @@
 #include "tetris.h"
 
 
+
 class Block
 {
 
     int turn_box_[ 4 ][ 4 ];
+
+    Vector2 draw_position_;
 
 
 
 public:
     Block();
 
-	void brockchanger(int way, int box[3][3]);
-    void brockchanger( int way, int box[ 4 ][ 4 ] );
+    void blockchanger( int way, int box[ 3 ][ 3 ] );
+    void blockchanger( int way, int box[ 4 ][ 4 ] );
+
+    void block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, Vector2 position, const RECT* rect );
+    void block_rect_( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, Vector2 position, const RECT* rect );
 
 
     
@@ -66,8 +72,3 @@ public:
 
 };
 
-
-struct piece_info {
-    int tag;
-
-};

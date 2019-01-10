@@ -160,46 +160,46 @@ void Tetris::draw()
 
 
     
-        switch( block_color )
-        {
-        case Tetris::water:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
-            break;
+    switch( block_color )
+    {
+    case Tetris::water:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
+        break;
 
-        case Tetris::orange:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
-            break;
+    case Tetris::orange:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
+        break;
 
-        case Tetris::green:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
-            break;
+    case Tetris::green:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
+        break;
 
-        case Tetris::red:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
-            break;
+    case Tetris::red:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
+        break;
 
-        case Tetris::blue:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
-            break;
+    case Tetris::blue:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
+        break;
 
-        case Tetris::brown:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
-            break;
+    case Tetris::brown:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
+        break;
 
-        case Tetris::purple:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
-            break;
+    case Tetris::purple:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
+        break;
 
-        case Tetris::black:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
-            break;
+    case Tetris::black:
+        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
+        break;
 
-        case Tetris::brank:
+    case Tetris::brank:
 
-            break;
-        default:
-            break;
-        }
+        break;
+    default:
+        break;
+    }
         
     
     if( dt_f > 1000 )
