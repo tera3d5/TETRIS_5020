@@ -51,7 +51,7 @@ public:
     int tetris_key;
 
     Tetris();
-    ~Tetris();
+    virtual ~Tetris();
     bool init();
     void update();
     void draw();

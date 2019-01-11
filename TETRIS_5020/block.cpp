@@ -4,7 +4,7 @@
 
 Block::Block()
 {
-    ZeroMemory( draw_position_, sizeof( draw_position_ ) );
+    //ZeroMemory( draw_position_, sizeof( draw_position_ ) );
 }
 
 enum way
@@ -23,7 +23,6 @@ enum piecetag
     green_tag  = 3,
     red_tag    = 3
 };
-
 
 
 
@@ -88,9 +87,9 @@ void Block::blockchanger( int way, int box[ 4 ][ 4 ] )
 }
 
 
-void Block::block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, Vector2 position, const RECT* rect )
+void Block::block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, const Vector2& position, const RECT* rect )
 {
-    draw_position_ = position;
+    Vector2 draw_position_ = position;
 
     for( int i = 0; i < 3; i++ )
     {
@@ -114,8 +113,9 @@ void Block::block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, V
     }
 }
 
-void Block::block_rect_( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, Vector2 position, const RECT* rect )
+void Block::block_rect_( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, const Vector2& position, const RECT* rect )
 {
+    Vector2 draw_position_;
     draw_position_ = position;
 
     for( int i = 0; i < 4; i++ )
