@@ -87,7 +87,7 @@ void Block::blockchanger( int way, int box[ 4 ][ 4 ] )
 }
 
 
-void Block::block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, const Vector2& position, const RECT* rect )
+/*void Block::block_rect( int box[ 3 ][ 3 ],ID3D11ShaderResourceView* texture,typename Vector2& position, RECT* rect )
 {
     Vector2 draw_position_ = position;
 
@@ -113,7 +113,7 @@ void Block::block_rect_( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture, c
     }
 }
 
-void Block::block_rect_( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, const Vector2& position, const RECT* rect )
+void Block::block_rect( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, Vector2& position, RECT* rect )
 {
     Vector2 draw_position_;
     draw_position_ = position;
@@ -138,4 +138,4 @@ void Block::block_rect_( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, c
         draw_position_.y += 25;
 
     }
-}
+}*/
