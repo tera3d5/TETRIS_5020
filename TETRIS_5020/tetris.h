@@ -8,13 +8,14 @@
 class Tetris
 {
     ID3D11ShaderResourceView* texture_;
-    int tetris_box[ 9 ][ 20 ]; // 保存用
-    int box[ 4 ][ 4 ]; // 描画用
-    int block_color; //ブロックの色
+    int tetris_box[ 9 ][ 20 ];      // 保存用
+    int box[ 4 ][ 4 ];              // 描画用
+    int block_color;                //ブロックの色
     float block_move_x, block_move_x_init, block_move_y, block_move_y_init; // ブロック座標
+    //float move_x, move_y;           // ブロック表示用
     //int move_i, move_j; // 配列
-    DWORD t1_f, t2_f, t3_f, dt_f; // freefall
-    DWORD t1_m, t2_m, t3_m, dt_m;  // manual
+    DWORD t1_f, t2_f, t3_f, dt_f;   // freefall
+    DWORD t1_m, t2_m, t3_m, dt_m;   // manual
     char move_key;
     char move_time;
 
@@ -52,6 +53,7 @@ class Tetris
 public:
     int tetris_key;
     void parts_init();
+
 
     int waterbox[ 4 ][ 4 ] =
     {
