@@ -14,7 +14,7 @@ Tetris::Tetris()
 {         
     block_move_x_init = 636.0F;
     block_move_y_init = 174.0F;
-
+    
 }
 Tetris::~Tetris()
 {
@@ -30,6 +30,7 @@ namespace
     const float map_limit_right  = 735.0F;  //                 右の端座標
     const float map_limit_top    = 174.0F;  //                 上限
     const float map_limit_bottom = 695.0F;  //                 下限
+   
 }
 
 
@@ -69,7 +70,7 @@ bool Tetris::init()
 void Tetris::parts_init()
 {
     srand( (unsigned int)time( NULL ) );
-    block_color = rand() % 7;
+    block_color = (rand() % 7) + 1;
 
     switch( block_color )
     {
@@ -212,83 +213,137 @@ void Tetris::draw()
     dt_f = (t1_f - t2_f) + t3_f;
 
     
-    Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view );
+    Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // 背景
 
-    if( block_color == water )
-    {
-        for( int i = 0; i < 4; i++ )
+    for( int i = 0; i < 9; i++ )
+        for( int j = 0; j < 20; j++ )
         {
-            for( int j = 0; j < 4; j++ )
+            if( tetris_box[ i ][ j ] >= 1 )
             {
-                if( box[ i ][ j ] == 1 )
+                switch( tetris_box[ i ][ j ] )
                 {
-                    Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
-                    block_move_x += piece_;
+                case water:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &water_piece_range_ );
+                    break;
+
+                case orange:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &orange_piece_range_ );
+                    break;
+
+                case green:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &green_piece_range_ );
+                    break;
+
+                case red:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &red_piece_range_ );
+                    break;
+
+                case blue:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &blue_piece_range_ );
+                    break;
+
+                case brown:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &brown_piece_range_ );
+                    break;
+
+                case purple:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &purple_piece_range_ );
+                    break;
+
+                case black:
+                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &black_piece_range_ );
+                    break;
                 }
-                else
-                    block_move_x += piece_;
+                piecedraw_begin_x += piece_;
 
             }
-            block_move_x -= (piece_ * 4);
-            block_move_y += piece_;
+            else if( tetris_box[ i ][ j ] == 0 )
+                piecedraw_begin_x += piece_;
+            piecedraw_begin_x = 510.0F;
+            piecedraw_begin_y -= piece_;
         }
-        block_move_y -= (piece_ * 4);
-    }
-    else
+    piecedraw_begin_y = 673.0F;  // ←ここまでが確定しているブロックの描画
+
+
+    if( block_move_y < map_limit_bottom ||block_movelimit_y)// ←|| 確定しているブロックとの当たり判定を追加
     {
-        for( int i = 0; i < 3; i++ )
+        if( block_color == water )
         {
-            for( int j = 0; j < 3; j++ )
+            for( int i = 0; i < 4; i++ )
             {
-                if( box[ i ][ j ] == 1 )
+                for( int j = 0; j < 4; j++ )
                 {
-                    switch( block_color )
+                    if( box[ i ][ j ] == 1 )
                     {
-                    case orange:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
-                        break;
+                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
+                        block_move_x += piece_;
+                    }
+                    else
+                        block_move_x += piece_;
 
-                    case green:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
-                        break;
+                }
+                block_move_x -= (piece_ * 4);
+                block_move_y += piece_;
+            }
+            block_movelimit_y = block_move_y;
+            block_move_y -= (piece_ * 4);
+        }
+        else
+        {
+            for( int i = 0; i < 3; i++ )
+            {
+                for( int j = 0; j < 3; j++ )
+                {
+                    if( box[ i ][ j ] == 1 )
+                    {
+                        switch( block_color )
+                        {
+                        case orange:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
+                            break;
 
-                    case red:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
-                        break;
+                        case green:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
+                            break;
 
-                    case blue:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
-                        break;
+                        case red:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
+                            break;
 
-                    case brown:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
-                        break;
+                        case blue:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
+                            break;
 
-                    case purple:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
-                        break;
+                        case brown:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
+                            break;
 
-                    case black:
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
-                        break;
+                        case purple:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
+                            break;
 
+                        case black:
+                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
+                            break;
+
+                        }
+
+
+                        block_move_x += piece_;
+                        
+                    }
+                    else
+                    {
+                        block_move_x += piece_;
                     }
 
-
-                    block_move_x += piece_;
-
                 }
-                else
-                {
-                    block_move_x += piece_;
-                }
-
+                block_move_x -= (piece_ * 3);
+                block_move_y += piece_;
             }
-            block_move_x -= (piece_ * 3);
-            block_move_y += piece_;
+            block_movelimit_y = block_move_y;
+            block_move_y -= (piece_ * 3);
         }
-
-        block_move_y -= (piece_ * 3);
     }
 
 
@@ -304,3 +359,8 @@ void Tetris::draw()
     }
 
 }
+
+
+// 下、或いは確定しているブロックと重ならないように
+// 操作しているブロックを確定させたら
+// 保存用に1～7の色情報を入れる。

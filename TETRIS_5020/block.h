@@ -17,8 +17,10 @@ public:
     void blockchanger( int way, int box[ 3 ][ 3 ] );
     void blockchanger( int way, int box[ 4 ][ 4 ] );
 
+    bool blocksercher( int num );
+
     // vectorが認識されない。余裕ができたら有効化したい
-    //void block_rect( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
+    //void virtual block_rect( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
     //void block_rect( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
 
 
