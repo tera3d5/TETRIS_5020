@@ -20,7 +20,7 @@ public:
     bool blocksercher( int num );
 
     // vectorが認識されない。余裕ができたら有効化したい
-    //void virtual block_rect( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
+    //virtual void block_rect( int box[ 3 ][ 3 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
     //void block_rect( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture,Vector2& position, RECT* rect );
 
 
