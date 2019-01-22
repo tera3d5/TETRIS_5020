@@ -87,11 +87,13 @@ void Block::blockchanger( int way, int box[ 4 ][ 4 ] )
 }
 
 
-bool Block::blocksercher( int num)
+bool Block::blocksercher(int i)
 {
-    
+    if( i == 0 )
+        return true;
+    else
+        return false;
 }
-
 
 /*void Block::block_rect( int box[ 3 ][ 3 ],ID3D11ShaderResourceView* texture,typename Vector2& position, RECT* rect )
 {

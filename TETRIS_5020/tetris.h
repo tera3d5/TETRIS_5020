@@ -51,13 +51,13 @@ class Tetris
         brank
     };
 
+    int move_x, move_y;
 
 public:
     int tetris_box[ 9 ][ 20 ];      // 保存用
-
+    int move_s_box[ 9 ][ 20 ];      // 1ピース用保存
     int tetris_key;
-    void parts_init();
-
+   
 
     int waterbox[ 4 ][ 4 ] =
     {
@@ -103,10 +103,15 @@ public:
     };
 
 
+
+    void parts_init();
+    void parts_inits();
+
     Tetris();
     ~Tetris();
     bool init();
     void update();
+    void single_draw();
     void draw();
     void destroy() { texture_  -> Release();}
 };
