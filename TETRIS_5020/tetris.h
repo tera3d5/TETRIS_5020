@@ -13,10 +13,12 @@ class Tetris
     int block_color;                //ブロックの色
     float block_move_x, block_move_x_init, block_move_y, block_move_y_init; // ブロック座標
     float block_movelimit_y;            // 当たり判定用
-    //float move_x, move_y;           // ブロック表示用
+    float block_pos_x, block_pos_y;     // 保存しているブロックの描画
+    //float move_x, move_y;             // ブロック表示用
     //int move_i, move_j; // 配列
     DWORD t1_f, t2_f, t3_f, dt_f;   // freefall
     DWORD t1_m, t2_m, t3_m, dt_m;   // manual
+    char block_speed;
     char move_key;
     char move_time;
     float piecedraw_begin_x = 510.0F; // 確定しているブロックの描画開始位置
@@ -51,11 +53,11 @@ class Tetris
         brank
     };
 
-    int move_x, move_y;
+    int x, y;
 
 public:
-    int tetris_box[ 9 ][ 20 ];      // 保存用
-    int move_s_box[ 9 ][ 20 ];      // 1ピース用保存
+    int tetris_box[ 20 ][ 9 ];      // 保存用
+    int move_s_box[ 20 ][ 9 ];      // 1ピース用保存
     int tetris_key;
    
 
@@ -105,7 +107,8 @@ public:
 
 
     void parts_init();
-    void parts_inits();
+    void parts_init_s();
+    void block_eraser_s();
 
     Tetris();
     ~Tetris();

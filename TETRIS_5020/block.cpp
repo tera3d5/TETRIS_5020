@@ -1,3 +1,4 @@
+#include "texture.h"
 #include "block.h"
 #include "sprite.h"
 
@@ -27,7 +28,7 @@ enum piecetag
 
 
 
-void Block::blockchanger( int way, int box[ 3 ][ 3 ] )
+void Block::block_changer( int way, int box[ 3 ][ 3 ] )
 {
 
     if( way == right )
@@ -57,7 +58,7 @@ void Block::blockchanger( int way, int box[ 3 ][ 3 ] )
 
 }
 
-void Block::blockchanger( int way, int box[ 4 ][ 4 ] )
+void Block::block_changer( int way, int box[ 4 ][ 4 ] )
 {
 
     if( way == right )
@@ -87,13 +88,6 @@ void Block::blockchanger( int way, int box[ 4 ][ 4 ] )
 }
 
 
-bool Block::blocksercher(int i)
-{
-    if( i == 0 )
-        return true;
-    else
-        return false;
-}
 
 /*void Block::block_rect( int box[ 3 ][ 3 ],ID3D11ShaderResourceView* texture,typename Vector2& position, RECT* rect )
 {
