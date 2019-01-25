@@ -108,7 +108,7 @@ public:
 
     void parts_init();
     void parts_init_s();
-    void block_eraser_s();
+    void block_eraser_s(int x);
 
     Tetris();
     ~Tetris();

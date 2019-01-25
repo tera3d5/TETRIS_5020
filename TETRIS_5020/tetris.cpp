@@ -151,21 +151,21 @@ void Tetris::update()
     const GamePad::State pad = Pad::getState();
 
 
-    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left ) && move_s_box[ x - 1][ y ] == 0 ) // case 0
+    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left ) && move_s_box[ x ][ y - 1 ] == 0 ) // case 0
     {
 
         if( move_key == 0 )
         {
             block_move_x -= piece_;
             move_s_box[ x ][ y ] = 0;
-            move_s_box[ x - 1 ][ y ] = 1;
+            move_s_box[ x ][ y - 1 ] = 1;
         }
             
         move_key = 1;
 
 
     }
-    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left) && move_s_box[ x - 1 ][ y ] == 0 && move_key == 1 )
+    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left) && move_s_box[ x ][ y - 1 ] == 0 && move_key == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -176,11 +176,11 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( block_move_x > map_limit_left && move_s_box[ x - 1 ][ y ] == 0 )
+            if( block_move_x > map_limit_left && move_s_box[ x ][ y - 1 ] == 0 )
             {
                 block_move_x -= piece_;
                 move_s_box[ x ][ y ] = 0;
-                move_s_box[ x - 1 ][ y ] = 1;
+                move_s_box[ x ][ y - 1 ] = 1;
             }
         }
     }
@@ -192,20 +192,20 @@ void Tetris::update()
 
 
 
-    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right)&& move_s_box[ x + 1 ][ y ] == 0 ) // 1
+    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right)&& move_s_box[ x ][ y + 1 ] == 0 ) // 1
     {
 
         if( move_key == 0 )
         {
             block_move_x += piece_;
             move_s_box[ x ][ y ] = 0;
-            move_s_box[ x + 1 ][ y ] = 1;
+            move_s_box[ x ][ y + 1 ] = 1;
         }
         move_key = 1;
 
 
     }
-    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right) && move_s_box[ x + 1 ][ y ] == 0 && move_key == 1 )
+    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right) && move_s_box[ x ][ y + 1 ] == 0 && move_key == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -216,11 +216,11 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( block_move_x < map_limit_right && move_s_box[ x + 1 ][ y ] == 0 )
+            if( block_move_x < map_limit_right && move_s_box[ x ][ y + 1 ] == 0 )
             {
                 block_move_x += piece_;
                 move_s_box[ x ][ y ] = 0;
-                move_s_box[ x + 1 ][ y ] = 1;
+                move_s_box[ x ][ y + 1 ] = 1;
             }
         }
     }
@@ -271,9 +271,9 @@ void Tetris::single_draw()
 
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // ”wŒi
 
-    for( int i = 0; i < 20; i++ )                                // ‘S‚Ä‚ÌƒuƒƒbƒN‚Ì•`‰æ
+    for( int i = 20; i > 0; i-- )                                // ‘S‚Ä‚ÌƒuƒƒbƒN‚Ì•`‰æ
     {
-        for( int j = 0; j < 9; j++ )
+        for( int j = 9; j > 0; j-- )
         {
             if( move_s_box[ i ][ j ] >= 1 )
             {
@@ -361,20 +361,20 @@ void Tetris::single_draw()
         t2_f = t1_f;
         t3_f = dt_f % 1000;
 
-        if( (block_move_y += piece_) < block_movelimit_y && move_s_box[ x ][ y + 1 ] == 0 )
+        if( (block_move_y += piece_) < block_movelimit_y && move_s_box[ x + 1 ][ y ] == 0 )
         {
             block_move_y += piece_;
             move_s_box[ x ][ y ] = 0;
-            move_s_box[ x ][ y + 1 ] = block_color;
-            y++;
+            move_s_box[ x + 1 ][ y ] = block_color;
+            x++;
         }
-        else if( (block_move_y += piece_) >= block_move_limit_y || move_s_box[ x ][ y + 1 ] >= 1 )
+        else if( (block_move_y += piece_) >= block_move_limit_y || move_s_box[ x + 1 ][ y ] >= 1 )
         {
-            void parts_init_s();
+            parts_init_s();
         }
 
 
-        void block_eraser_s();
+        block_eraser_s(x);
     }
 }
 
@@ -386,8 +386,8 @@ void Tetris::draw()
     
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // ”wŒi
 
-    for( int i = 0; i < 20; i++ )
-        for( int j = 0; j < 9; j++ )
+    for( int i = 20; i > 0; i-- )
+        for( int j = 9; j > 0; j-- )
         {
             if( tetris_box[ i ][ j ] >= 1 )
             {
@@ -531,11 +531,12 @@ void Tetris::draw()
 
 
 
-void Tetris::block_eraser_s()
+void Tetris::block_eraser_s(int x)// ŒÅ’è‚µ‚½‚Æ‚±‚ë‚©‚ç4s•ª‘–¸‚µ‚ÄÁ‚·
 {
     int count = 0;
+    for(;x<(x-4);x-- )
     for( int i = 0; i < 9; i++ )
-        if( move_s_box[i][20]>=1 )
+        if( move_s_box[x][i]>=1 )
             count++;
 
     if( count == 9 )
@@ -548,4 +549,5 @@ void Tetris::block_eraser_s()
         
     }
 
+    count = 0;
 }
