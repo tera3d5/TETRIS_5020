@@ -11,7 +11,7 @@ class Tetris
     
     int box[ 4 ][ 4 ];              // 描画用
     int block_color;                //ブロックの色
-    float block_move_x, block_move_x_init, block_move_y, block_move_y_init; // ブロック座標
+    float block_move_x,  block_move_y; // ブロック座標
     float block_movelimit_y;            // 当たり判定用
     float block_pos_x, block_pos_y;     // 保存しているブロックの描画
     //float move_x, move_y;             // ブロック表示用
@@ -20,7 +20,6 @@ class Tetris
     DWORD t1_m, t2_m, t3_m, dt_m;   // manual
     char block_speed;
     char move_key;
-    char move_time;
     float piecedraw_begin_x = 510.0F; // 確定しているブロックの描画開始位置
     float piecedraw_begin_y = 673.0F;
     
@@ -38,7 +37,7 @@ class Tetris
     RECT purple_piece_range_ = { 957,838,863,982 };
     RECT black_piece_range_  = { 957,863,888,982 };
     RECT brank_piece_range_  = { 1480,970,995,1505 };
-    //RECT piece = { 512,174,199,537 };
+
 
     enum color
     {
@@ -56,8 +55,8 @@ class Tetris
     int x, y;
 
 public:
-    int tetris_box[ 20 ][ 9 ];      // 保存用
-    int move_s_box[ 20 ][ 9 ];      // 1ピース用保存
+    int tetris_box[ 20 ][ 10 ];      // 保存用
+    int move_s_box[ 20 ][ 10 ];      // 1ピース用保存
     int tetris_key;
    
 

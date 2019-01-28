@@ -11,13 +11,7 @@ Texture texture;
 Block block;
 
 Tetris::Tetris()
-{         
-    block_move_x_init = 636.0F;
-    block_move_y_init = 174.0F;
-    
-    block_pos_x = 511.0F;
-    block_pos_y = 673.0F;
-}
+{}
 Tetris::~Tetris()
 {
     tetris_box;
@@ -33,6 +27,9 @@ namespace
     const float map_limit_top    = 174.0F;  //                 è„å¿
     const float map_limit_bottom = 695.0F;  //                 â∫å¿
     const float block_move_limit_y = 670.0F;
+    const float block_move_x_init = 611.0F;
+    const float block_move_y_init = 174.0F;
+    const float block_pos_y_init = 673.0F;
    
 }
 
@@ -52,20 +49,22 @@ bool Tetris::init()
 
 
     for( int i = 0; i < 20; i++ )
-        for( int j = 0; j < 9; j++ )
+        for( int j = 0; j < 10; j++ )
         {
             tetris_box[ i ][ j ] = 0;
             move_s_box[ i ][ j ] = 0;
         }
     
     
-    t3_f = t3_m = 0L;
-    t1_f = t2_f = t1_m = t2_m = timeGetTime();
-
+    t2_f = timeGetTime();
+    t1_f = timeGetTime();
+    t3_f = t3_m = dt_f = dt_m = 0L;
     tetris_key = move_key = 0;
-    move_time = 0;
 
-    Tetris::parts_init();
+    block_pos_x = 511.0F;
+    block_pos_y = block_pos_y_init;
+
+    Tetris::parts_init_s();
 
 
     return true;
@@ -81,7 +80,8 @@ void Tetris::parts_init_s()
     block_move_y = block_move_y_init;
 
 
-    move_s_box[ 4 ][ 0 ] = block_color;
+    x = 0, y = 5;
+    move_s_box[ x ][ y ] = block_color;
 
 }
 
@@ -91,6 +91,9 @@ void Tetris::parts_init()
 {
     srand( (unsigned int)time( NULL ) );
     block_color = (rand() % 7) + 1;
+    for( int i = 0; i < 4; i++ )
+        for( int j = 0; j < 4; j++ )
+            box[ i ][ j ] = 0;
 
     block_move_x = block_move_x_init;
     block_move_y = block_move_y_init;
@@ -100,43 +103,43 @@ void Tetris::parts_init()
     case water:
         for( int i = 0; i < 4; i++ )
             for( int j = 0; j < 4; j++ )
-                box[ i ][ j ] = waterbox[ i ][ j ];
+                box[ i + 4 ][ j ] = waterbox[ i ][ j ];
         break;
 
     case orange:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = orangebox[ i ][ j ];
+                box[ i + 4 ][ j ] = orangebox[ i ][ j ];
         break;
 
     case green:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = greenbox[ i ][ j ];
+                box[ i + 4 ][ j ] = greenbox[ i ][ j ];
         break;
 
     case red:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = redbox[ i ][ j ];
+                box[ i + 4 ][ j ] = redbox[ i ][ j ];
         break;
 
     case blue:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = bluebox[ i ][ j ];
+                box[ i + 4 ][ j ] = bluebox[ i ][ j ];
         break;
 
     case brown:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = brownbox[ i ][ j ];
+                box[ i + 4 ][ j ] = brownbox[ i ][ j ];
         break;
 
     case purple:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box[ i ][ j ] = purplebox[ i ][ j ];
+                box[ i + 4 ][ j ] = purplebox[ i ][ j ];
         break;
 
 
@@ -158,7 +161,7 @@ void Tetris::update()
         {
             block_move_x -= piece_;
             move_s_box[ x ][ y ] = 0;
-            move_s_box[ x ][ y - 1 ] = 1;
+            move_s_box[ x ][ y - 1 ] = block_color;
         }
             
         move_key = 1;
@@ -180,7 +183,7 @@ void Tetris::update()
             {
                 block_move_x -= piece_;
                 move_s_box[ x ][ y ] = 0;
-                move_s_box[ x ][ y - 1 ] = 1;
+                move_s_box[ x ][ y - 1 ] = block_color;
             }
         }
     }
@@ -199,7 +202,7 @@ void Tetris::update()
         {
             block_move_x += piece_;
             move_s_box[ x ][ y ] = 0;
-            move_s_box[ x ][ y + 1 ] = 1;
+            move_s_box[ x ][ y + 1 ] = block_color;
         }
         move_key = 1;
 
@@ -220,7 +223,7 @@ void Tetris::update()
             {
                 block_move_x += piece_;
                 move_s_box[ x ][ y ] = 0;
-                move_s_box[ x ][ y + 1 ] = 1;
+                move_s_box[ x ][ y + 1 ] = block_color;
             }
         }
     }
@@ -244,7 +247,7 @@ void Tetris::update()
         
     if( !(key.Right || pad.dpad.right || key.Left || pad.dpad.left || key.Up || pad.dpad.up || key.Down || pad.dpad.down) && move_key == 1 )
     {
-        move_time = 0;
+
         move_key = 0;
     }
 
@@ -271,13 +274,13 @@ void Tetris::single_draw()
 
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // îwåi
 
-    for( int i = 20; i > 0; i-- )                                // ëSÇƒÇÃÉuÉçÉbÉNÇÃï`âÊ
+    for( int i = 19; i >= 0; i-- )                                // ëSÇƒÇÃÉuÉçÉbÉNÇÃï`âÊ
     {
-        for( int j = 9; j > 0; j-- )
+        for( int j = 0; j < 10; j++ )
         {
             if( move_s_box[ i ][ j ] >= 1 )
             {
-                switch( block_color )
+                switch( move_s_box[ i ][ j ] )
                 {
                 case water:
                     Sprite::draw( texture_, Vector2( block_pos_x, block_pos_y ), &water_piece_range_ );
@@ -313,50 +316,14 @@ void Tetris::single_draw()
             else if( move_s_box[ i ][ j ] == 0 )
                 block_pos_x += piece_;
         }
-        block_pos_x -= piece_ * 9;
+        block_pos_x -= piece_ * 10;
         block_pos_y -= piece_;
     }
-
-#if 0       
-    switch( block_color )
-    {
-    case water:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
-        break;
-
-    case orange:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
-        break;
-
-    case green:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
-        break;
-
-    case red:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
-        break;
-
-    case blue:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
-        break;
-
-    case brown:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
-        break;
-
-    case purple:
-        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
-        break;
-
-        /*case black:
-            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
-            break;*/    
-    }
-#endif
+    block_pos_y = block_pos_y_init;
 
 
 
-    if( dt_f > 1000 )
+    if( dt_f >1000 )
     {
         t2_f = t1_f;
         t3_f = dt_f % 1000;
@@ -370,11 +337,10 @@ void Tetris::single_draw()
         }
         else if( (block_move_y += piece_) >= block_move_limit_y || move_s_box[ x + 1 ][ y ] >= 1 )
         {
+            block_eraser_s( x );
             parts_init_s();
         }
 
-
-        block_eraser_s(x);
     }
 }
 
@@ -386,8 +352,8 @@ void Tetris::draw()
     
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // îwåi
 
-    for( int i = 20; i > 0; i-- )
-        for( int j = 9; j > 0; j-- )
+    for( int i = 19; i >= 0; i-- )
+        for( int j = 0; j < 10; j++ )
         {
             if( tetris_box[ i ][ j ] >= 1 )
             {
@@ -534,20 +500,24 @@ void Tetris::draw()
 void Tetris::block_eraser_s(int x)// å≈íËÇµÇΩÇ∆Ç±ÇÎÇ©ÇÁ4çsï™ëñç∏ÇµÇƒè¡Ç∑
 {
     int count = 0;
-    for(;x<(x-4);x-- )
-    for( int i = 0; i < 9; i++ )
-        if( move_s_box[x][i]>=1 )
-            count++;
-
-    if( count == 9 )
+    int y = x;
+    for( ; x > (y - 4); x-- )
     {
-        for( int i = 0; i < 9; i++ )
-            move_s_box[ i ][ 20 ] = 0;
-        
-        for( int i = 0; i < 9; i++ )
-            move_s_box[ i ][ 20 ] = move_s_box[ i ][ 19 ];
-        
-    }
+        for( int i = 0; i < 10; i++ )
+            if( move_s_box[ x ][ i ] >= 1 )
+            {
+                count++;
 
-    count = 0;
+                if( count == 10 )
+                {
+                    for( int i = 0; i < 10; i++ )
+                        move_s_box[ x ][ i ] = 0;
+
+                    for( int i = 0; i < 10; i++ )
+                        move_s_box[ x ][ i ] = move_s_box[ x - 1 ][ i ];
+
+                }
+            }
+        count = 0;
+    }  
 }
