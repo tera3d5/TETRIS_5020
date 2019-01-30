@@ -295,7 +295,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
                     break;
 
                 case kGameUpdate:
-                    tetris.single_draw();
+                    tetris.singledraw();
                     break;
 
                 case kResultUpdate:

@@ -9,8 +9,8 @@ class Tetris
 {
     ID3D11ShaderResourceView* texture_;
     
-    int box[ 4 ][ 4 ];              // 描画用
-    int block_color;                //ブロックの色
+    int box_[ 4 ][ 4 ];              // 描画用
+    int block_color_;                //ブロックの色
     float block_move_x,  block_move_y; // ブロック座標
     float block_movelimit_y;            // 当たり判定用
     float block_pos_x, block_pos_y;     // 保存しているブロックの描画
@@ -18,8 +18,8 @@ class Tetris
     //int move_i, move_j; // 配列
     DWORD t1_f, t2_f, t3_f, dt_f;   // freefall
     DWORD t1_m, t2_m, t3_m, dt_m;   // manual
-    char block_speed;
-    char move_key;
+    char block_speed_;
+    char move_key_;
     float piecedraw_begin_x = 510.0F; // 確定しているブロックの描画開始位置
     float piecedraw_begin_y = 673.0F;
     
@@ -60,44 +60,44 @@ public:
     int tetris_key;
    
 
-    int waterbox[ 4 ][ 4 ] =
+    int water_box[ 4 ][ 4 ] =
     {
         {0,0,0,0},
         {1,1,1,1},
         {0,0,0,0},
         {0,0,0,0}
     };
-    int orangebox[ 3 ][ 3 ] =
+    int orange_box[ 3 ][ 3 ] =
     {
         {1,1,1},
         {1,0,0},
         {0,0,0}
     };
-    int greenbox[ 3 ][ 3 ] =
+    int green_box[ 3 ][ 3 ] =
     {
         {0,1,1},
         {1,1,0},
         {0,0,0}
     };
-    int redbox[ 3 ][ 3 ] =
+    int red_box[ 3 ][ 3 ] =
     {
         {1,1,0},
         {0,1,1},
         {0,0,0}
     };
-    int bluebox[ 3 ][ 3 ] =
+    int blue_box[ 3 ][ 3 ] =
     {
         {1,1,1},
         {0,0,1},
         {0,0,0}
     };
-    int brownbox[ 3 ][ 3 ] =
+    int brown_box[ 3 ][ 3 ] =
     {
         {1,1,1},
         {0,1,0},
         {0,0,0}
     };
-    int purplebox[ 2 ][ 2 ] =
+    int purple_box[ 2 ][ 2 ] =
     {
         {1,1},
         {1,1}
@@ -105,15 +105,15 @@ public:
 
 
 
-    void parts_init();
-    void parts_init_s();
-    void block_eraser_s(int x);
+    void partsinit();
+    void partsinits();
+    void blockerasers(int x);
 
     Tetris();
     ~Tetris();
     bool init();
     void update();
-    void single_draw();
+    void singledraw();
     void draw();
     void destroy() { texture_  -> Release();}
 };
