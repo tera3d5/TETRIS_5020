@@ -1,7 +1,6 @@
 #pragma once
 
-#include <d3d11.h>
-#include <SimpleMath.h>
+
 #include "texture.h"
 
 
@@ -109,7 +108,7 @@ public:
     void partsinits();
     void blockerasers(int x);
 
-    Tetris();
+    //Tetris();
     ~Tetris();
     bool init();
     void update();

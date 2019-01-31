@@ -3,10 +3,11 @@
 #include "sprite.h"
 
 
-Block::Block()
+/*Block::Block()
 {
     //ZeroMemory( draw_position_, sizeof( draw_position_ ) );
 }
+*/
 
 enum way
 {

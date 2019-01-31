@@ -1,12 +1,11 @@
-#include <Windows.h>
-#include <d3d11.h>
-#include <SimpleMath.h>
 #include "sprite.h"
 #include "direct3d.h"
 #include "common.h"
 #include "tetris.h"
 #include "keyboard.h"
 #include "pad.h"
+#include "error.h"
+#include "resource.h"
 
 
 
@@ -32,8 +31,26 @@ LRESULT CALLBACK WinProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdShow, int nCmdShow )
 {
-    // 乱数初期化
-    //srand( time( NULL ) );
+#ifdef _DEBUG
+    // メモリリークのチェック
+    //_CrtSetBreakAlloc( 162 );
+    _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif
+
+
+
+    // ミューテックスの作成
+    HANDLE mutex = CreateMutex( NULL, false, "tetrisgame" );
+
+    // 多重起動のチェック
+    if( GetLastError() == ERROR_ALREADY_EXISTS )
+    {
+        // 起動している
+        Error::showDialog( "既に起動しています。" );
+
+        
+        return 0;
+    }
 
 
     // ウィンドウクラスの作成
@@ -47,6 +64,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
     wnd.hCursor = LoadCursor( NULL, IDC_ARROW );    // カーソル形状
     wnd.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wnd.lpfnWndProc = WinProc;      // ウィンドウプロシージャへの関数ポインタ
+    wnd.hIcon = LoadIcon( hInstance, reinterpret_cast<LPSTR>(IDI_ICON1) );
+    // wnd.hIconSm=LoadIcon←表示画面左上のアイコン
 
     // 登録
     if( !RegisterClassEx( &wnd ) )

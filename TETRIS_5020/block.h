@@ -1,9 +1,5 @@
 #pragma once
 
-#include <cstdio>
-#include <d3d11.h>
-#include <SimpleMath.h>
-
 
 using namespace DirectX;
 
@@ -13,7 +9,7 @@ class Block
 
 public:
     
-    Block();
+    //Block();
 
     void block_changer( int way, int box[ 3 ][ 3 ] );
     void block_changer( int way, int box[ 4 ][ 4 ] );

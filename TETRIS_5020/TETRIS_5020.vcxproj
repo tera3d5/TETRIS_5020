@@ -89,6 +89,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\cri\pc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -154,6 +156,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pad.cpp" />
     <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="tetris.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
@@ -164,14 +169,21 @@
     <ClInclude Include="adx.h" />
     <ClInclude Include="block.h" />
     <ClInclude Include="common.h" />
-    <ClInclude Include="control.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="error.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="pad.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="tetris.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="sprite.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TETRIS_5020.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

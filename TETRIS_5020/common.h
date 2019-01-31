@@ -1,6 +1,5 @@
 #pragma once
 
-#include <CommonStates.h>
 
 // –¼‘O‹óŠÔ
 using namespace DirectX;

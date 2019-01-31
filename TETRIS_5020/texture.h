@@ -1,7 +1,5 @@
 #pragma once
 
-#include <d3d11.h>
-#include <WICTextureLoader.h>
 
 // –¼‘O‹óŠÔ
 using namespace DirectX;

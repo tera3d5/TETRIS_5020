@@ -1,4 +1,3 @@
-#include <ctime>
 #include "tetris.h"
 #include "sprite.h"
 #include "block.h"
@@ -10,8 +9,7 @@
 Texture texture;
 Block block;
 
-Tetris::Tetris()
-{}
+
 Tetris::~Tetris()
 {
     tetris_box;
@@ -103,43 +101,43 @@ void Tetris::partsinit()
     case water:
         for( int i = 0; i < 4; i++ )
             for( int j = 0; j < 4; j++ )
-                box_[ i + 4 ][ j ] = water_box[ i ][ j ];
+                box_[ i ][ j ] = water_box[ i ][ j ];
         break;
 
     case orange:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = orange_box[ i ][ j ];
+                box_[ i ][ j ] = orange_box[ i ][ j ];
         break;
 
     case green:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = green_box[ i ][ j ];
+                box_[ i ][ j ] = green_box[ i ][ j ];
         break;
 
     case red:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = red_box[ i ][ j ];
+                box_[ i ][ j ] = red_box[ i ][ j ];
         break;
 
     case blue:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = blue_box[ i ][ j ];
+                box_[ i ][ j ] = blue_box[ i ][ j ];
         break;
 
     case brown:
         for( int i = 0; i < 3; i++ )
             for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = brown_box[ i ][ j ];
+                box_[ i ][ j ] = brown_box[ i ][ j ];
         break;
 
     case purple:
-        for( int i = 0; i < 3; i++ )
-            for( int j = 0; j < 3; j++ )
-                box_[ i + 4 ][ j ] = purple_box[ i ][ j ];
+        for( int i = 0; i < 2; i++ )
+            for( int j = 0; j < 2; j++ )
+                box_[ i ][ j ] = purple_box[ i ][ j ];
         break;
 
 
@@ -283,8 +281,7 @@ void Tetris::update()
 
 void Tetris::singledraw()
 {
-    
-
+   
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // ”wŒi
 
     for( int i = 19; i >= 0; i-- )                                // ‘S‚Ä‚ÌƒuƒƒbƒN‚Ì•`‰æ

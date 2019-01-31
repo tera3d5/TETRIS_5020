@@ -1,7 +1,5 @@
 #pragma once
 
-#include<SpriteBatch.h>
-#include<SimpleMath.h>
 
 
 // –¼‘O‹óŠÔ
