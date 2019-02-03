@@ -10,10 +10,6 @@ Texture texture;
 Block block;
 
 
-Tetris::~Tetris()
-{
-    tetris_box;
-}
 
 namespace
 {
@@ -27,8 +23,9 @@ namespace
     const float block_move_limit_y = 670.0F;
     const float block_move_x_init = 611.0F;
     const float block_move_y_init = 174.0F;
-    const float block_pos_y_init = 673.0F;
-   
+    const float block_pos_y_init = 648.0F;
+
+
 }
 
 
@@ -49,7 +46,7 @@ bool Tetris::init()
     for( int i = 0; i < 20; i++ )
         for( int j = 0; j < 10; j++ )
         {
-            tetris_box[ i ][ j ] = 0;
+            //tetris_box[ i ][ j ] = 0;
             move_s_box[ i ][ j ] = 0;
         }
     
@@ -84,7 +81,7 @@ void Tetris::partsinits()
 }
 
 
-
+#if 0
 void Tetris::partsinit()
 {
     srand( (unsigned int)time( NULL ) );
@@ -143,7 +140,7 @@ void Tetris::partsinit()
 
     }
 }
-
+#endif
 
 
 void Tetris::update()
@@ -279,10 +276,55 @@ void Tetris::update()
 
 }
 
+
 void Tetris::singledraw()
 {
-   
-    Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // îwåi
+	Sprite::draw(texture_, Vector2(0.0F, 0.0F), &rect_view); // îwåi
+
+	 
+	RECT water_piece_range_;
+	water_piece_range_.top = 957.0F;
+	water_piece_range_.left = 688.0F;
+	water_piece_range_.right = 713.0F;
+	water_piece_range_.bottom = 982.0F;
+
+	RECT orange_piece_range_;
+	orange_piece_range_.top = 957.0F;
+	orange_piece_range_.left = 713.0F;
+	orange_piece_range_.right = 738.0F;
+	orange_piece_range_.bottom = 982.0F;
+
+	RECT green_piece_range_;
+	green_piece_range_.top = 957.0F;
+	green_piece_range_.left = 738.0F;
+	green_piece_range_.right = 763.0F;
+	green_piece_range_.bottom = 982.0F;
+
+	RECT red_piece_range_;
+	red_piece_range_.top = 957.0F;
+	red_piece_range_.left = 763.0F;
+	red_piece_range_.right = 788.0F;
+	red_piece_range_.bottom = 982.0F;
+
+	RECT blue_piece_range_;
+	blue_piece_range_.top = 957.0F;
+	blue_piece_range_.left = 788.0F;
+	blue_piece_range_.right = 813.0F;
+	blue_piece_range_.bottom = 982.0F;
+
+	RECT brown_piece_range_;
+	brown_piece_range_.top = 957.0F;
+	brown_piece_range_.left = 813.0F;
+	brown_piece_range_.right = 838.0F;
+	brown_piece_range_.bottom = 982.0F;
+
+	RECT purple_piece_range_;
+	purple_piece_range_.top = 957.0F;
+	purple_piece_range_.left = 838.0F;
+	purple_piece_range_.right = 863.0F;
+	purple_piece_range_.bottom = 982.0F;
+
+
 
     for( int i = 19; i >= 0; i-- )                                // ëSÇƒÇÃÉuÉçÉbÉNÇÃï`âÊ
     {
@@ -336,20 +378,62 @@ void Tetris::singledraw()
 
 }
 
+
+#if 0
 void Tetris::draw()
 {
-    t1_f = timeGetTime();
-    dt_f = (t1_f - t2_f) + t3_f;
-
-    
+     
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // îwåi
 
-    for( int i = 19; i >= 0; i-- )
+	RECT water_piece_range_;
+	water_piece_range_.top = 957.0F;
+	water_piece_range_.left = 688.0F;
+	water_piece_range_.right = 713.0F;
+	water_piece_range_.bottom = 982.0F;
+
+	RECT orange_piece_range_;
+	orange_piece_range_.top = 957.0F;
+	orange_piece_range_.left = 713.0F;
+	orange_piece_range_.right = 738.0F;
+	orange_piece_range_.bottom = 982.0F;
+
+	RECT green_piece_range_;
+	green_piece_range_.top = 957.0F;
+	green_piece_range_.left = 738.0F;
+	green_piece_range_.right = 763.0F;
+	green_piece_range_.bottom = 982.0F;
+
+	RECT red_piece_range_;
+	red_piece_range_.top = 957.0F;
+	red_piece_range_.left = 763.0F;
+	red_piece_range_.right = 788.0F;
+	red_piece_range_.bottom = 982.0F;
+
+	RECT blue_piece_range_;
+	blue_piece_range_.top = 957.0F;
+	blue_piece_range_.left = 788.0F;
+	blue_piece_range_.right = 813.0F;
+	blue_piece_range_.bottom = 982.0F;
+
+	RECT brown_piece_range_;
+	brown_piece_range_.top = 957.0F;
+	brown_piece_range_.left = 813.0F;
+	brown_piece_range_.right = 838.0F;
+	brown_piece_range_.bottom = 982.0F;
+
+	RECT purple_piece_range_;
+	purple_piece_range_.top = 957.0F;
+	purple_piece_range_.left = 838.0F;
+	purple_piece_range_.right = 863.0F;
+	purple_piece_range_.bottom = 982.0F;
+
+
+    for( int i = 20; i >= 0; i-- )
         for( int j = 0; j < 10; j++ )
         {
-            if( tetris_box[ i ][ j ] >= 1 )
+            if( move_s_box[i][j]>=1/*tetris_box[ i ][ j ] >= 1*/ )
             {
-                switch( tetris_box[ i ][ j ] )
+                switch( move_s_box[i][j]/*tetris_box[ i ][ j ]*/ )
                 {
                 case water:
                     Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &water_piece_range_ );
@@ -379,112 +463,22 @@ void Tetris::draw()
                     Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &purple_piece_range_ );
                     break;
 
-                case black:
-                    Sprite::draw( texture_, Vector2( piecedraw_begin_x, piecedraw_begin_y ), &black_piece_range_ );
-                    break;
+
                 }
                 piecedraw_begin_x += piece_;
 
             }
-            else if( tetris_box[ i ][ j ] == 0 )
+            else if(move_s_box[i][j]==0 /*tetris_box[ i ][ j ] == 0*/ )
                 piecedraw_begin_x += piece_;
             piecedraw_begin_x = 510.0F;
             piecedraw_begin_y -= piece_;
         }
-    piecedraw_begin_y = 673.0F;  // Å©Ç±Ç±Ç‹Ç≈Ç™ämíËÇµÇƒÇ¢ÇÈÉuÉçÉbÉNÇÃï`âÊ
+    piecedraw_begin_y = 673.0F; 
 
 
-    if( block_move_y < map_limit_bottom )// Å©|| ämíËÇµÇƒÇ¢ÇÈÉuÉçÉbÉNÇ∆ÇÃìñÇΩÇËîªíËÇí«â¡
-    {
-        if( block_color_ == water )
-        {
-            for( int i = 0; i < 4; i++ )
-            {
-                for( int j = 0; j < 4; j++ )
-                {
-                    if( box_[ i ][ j ] == 1 )
-                    {
-                        Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &water_piece_range_ );
-                        block_move_x += piece_;
-                    }
-                    else
-                        block_move_x += piece_;
-
-                }
-                block_move_x -= (piece_ * 4);
-                block_move_y += piece_;
-            }
-            block_movelimit_y = block_move_y;
-            block_move_y -= (piece_ * 4);
-        }
-        else
-        {
-            for( int i = 0; i < 3; i++ )
-            {
-                for( int j = 0; j < 3; j++ )
-                {
-                    if( box_[ i ][ j ] == 1 )
-                    {
-                        switch( block_color_ )
-                        {
-                        case orange:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &orange_piece_range_ );
-                            break;
-
-                        case green:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &green_piece_range_ );
-                            break;
-
-                        case red:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &red_piece_range_ );
-                            break;
-
-                        case blue:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &blue_piece_range_ );
-                            break;
-
-                        case brown:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &brown_piece_range_ );
-                            break;
-
-                        case purple:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &purple_piece_range_ );
-                            break;
-
-                        case black:
-                            Sprite::draw( texture_, Vector2( block_move_x, block_move_y ), &black_piece_range_ );
-                            break;
-
-                        }
-
-
-                        block_move_x += piece_;
-                        
-                    }
-                    else
-                    {
-                        block_move_x += piece_;
-                    }
-
-                }
-                block_move_x -= (piece_ * 3);
-                block_move_y += piece_;
-            }
-            block_movelimit_y = block_move_y;
-            block_move_y -= (piece_ * 3);
-        }
-    }
-  
-    if( dt_f > 1000 )
-    {
-        t2_f = t1_f;         
-        t3_f = dt_f % 1000;
-
-        
-        block_move_y += piece_;
-    }
 
 }
+#endif
 
 
 

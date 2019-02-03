@@ -3,11 +3,7 @@
 #include "sprite.h"
 
 
-/*Block::Block()
-{
-    //ZeroMemory( draw_position_, sizeof( draw_position_ ) );
-}
-*/
+
 
 enum way
 {
@@ -87,58 +83,3 @@ void Block::block_changer( int way, int box[ 4 ][ 4 ] )
 
 
 }
-
-
-
-/*void Block::block_rect( int box[ 3 ][ 3 ],ID3D11ShaderResourceView* texture,typename Vector2& position, RECT* rect )
-{
-    Vector2 draw_position_ = position;
-
-    for( int i = 0; i < 3; i++ )
-    {
-        for( int j = 0; j < 3; j++ )
-        {
-            if( box[ i ][ j ] == 1 )
-            {
-                Sprite::draw( texture, draw_position_, rect );
-                draw_position_.x += 25;
-
-            }
-            else
-            {
-                draw_position_.x += 25;
-            }
-
-        }
-        draw_position_.x -= 75;
-        draw_position_.y += 25;
-
-    }
-}
-
-void Block::block_rect( int box[ 4 ][ 4 ], ID3D11ShaderResourceView* texture, Vector2& position, RECT* rect )
-{
-    Vector2 draw_position_;
-    draw_position_ = position;
-
-    for( int i = 0; i < 4; i++ )
-    {
-        for( int j = 0; j < 4; j++ )
-        {
-            if( box[ i ][ j ] == 1 )
-            {
-                Sprite::draw( texture, draw_position_, rect );
-                draw_position_.x += 25;
-
-            }
-            else
-            {
-                draw_position_.x += 25;
-            }
-
-        }
-        draw_position_.x -= 100;
-        draw_position_.y += 25;
-
-    }
-}*/
