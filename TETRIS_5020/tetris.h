@@ -56,7 +56,7 @@ class Tetris
 
 public:
     //int tetris_box[ 20 ][ 10 ];      // 保存用
-    int move_s_box[ 20 ][ 10 ];      // 1ピース用保存
+    int move_s_box[ 21 ][ 10 ];      // 1ピース用保存
     int tetris_key;
    
 

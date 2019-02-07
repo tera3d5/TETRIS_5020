@@ -23,7 +23,7 @@ namespace
     const float block_move_limit_y = 670.0F;
     const float block_move_x_init = 611.0F;
     const float block_move_y_init = 174.0F;
-    const float block_pos_y_init = 648.0F;
+    const float block_pos_y_init = 673.0F;
 
 
 }
@@ -43,7 +43,7 @@ bool Tetris::init()
     
 
 
-    for( int i = 0; i < 20; i++ )
+    for( int i = 0; i < 21; i++ )
         for( int j = 0; j < 10; j++ )
         {
             //tetris_box[ i ][ j ] = 0;
@@ -71,8 +71,8 @@ void Tetris::partsinits()
     srand( (unsigned int)time( NULL ) );
     block_color_ = (rand() % 7) + 1;
 
-    block_move_x = block_move_x_init;
-    block_move_y = block_move_y_init;
+    //block_move_x = block_move_x_init;
+    //block_move_y = block_move_y_init;
 
 
     x = 0, y = 5;
@@ -153,12 +153,12 @@ void Tetris::update()
     dt_f = (t1_f - t2_f) + t3_f;
 
 
-    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left ) && move_s_box[ x ][ y - 1 ] == 0 ) // case 0
+    if( (key.Left || pad.dpad.left) &&/* (block_move_x > map_limit_left ) &&*/ move_s_box[ x ][ y - 1 ] == 0 ) // case 0
     {
 
         if( move_key_ == 0 )
         {
-            block_move_x -= piece_;
+            //block_move_x -= piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x ][ y - 1 ] = block_color_;
         }
@@ -167,7 +167,7 @@ void Tetris::update()
 
 
     }
-    if( (key.Left || pad.dpad.left) && (block_move_x > map_limit_left) && move_s_box[ x ][ y - 1 ] == 0 && move_key_ == 1 )
+    if( (key.Left || pad.dpad.left) &&/* (block_move_x > map_limit_left) &&*/ move_s_box[ x ][ y - 1 ] == 0 && move_key_ == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -178,9 +178,9 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( block_move_x > map_limit_left && move_s_box[ x ][ y - 1 ] == 0 )
+            if( /*block_move_x > map_limit_left &&*/ move_s_box[ x ][ y - 1 ] == 0 )
             {
-                block_move_x -= piece_;
+                //block_move_x -= piece_;
                 move_s_box[ x ][ y ] = 0;
                 move_s_box[ x ][ y - 1 ] = block_color_;
             }
@@ -193,12 +193,12 @@ void Tetris::update()
 
 
 
-    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right)&& move_s_box[ x ][ y + 1 ] == 0 ) // 1
+    if( (key.Right || pad.dpad.right) &&/* (block_move_x < map_limit_right)&&*/ move_s_box[ x ][ y + 1 ] == 0 ) // 1
     {
 
         if( move_key_ == 0 )
         {
-            block_move_x += piece_;
+            //block_move_x += piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x ][ y + 1 ] = block_color_;
         }
@@ -206,7 +206,7 @@ void Tetris::update()
 
 
     }
-    if( (key.Right || pad.dpad.right) && (block_move_x < map_limit_right) && move_s_box[ x ][ y + 1 ] == 0 && move_key_ == 1 )
+    if( (key.Right || pad.dpad.right) &&/* (block_move_x < map_limit_right) &&*/ move_s_box[ x ][ y + 1 ] == 0 && move_key_ == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -217,9 +217,9 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( block_move_x < map_limit_right && move_s_box[ x ][ y + 1 ] == 0 )
+            if( /*block_move_x < map_limit_right &&*/ move_s_box[ x ][ y + 1 ] == 0 )
             {
-                block_move_x += piece_;
+                //block_move_x += piece_;
                 move_s_box[ x ][ y ] = 0;
                 move_s_box[ x ][ y + 1 ] = block_color_;
             }
@@ -256,14 +256,14 @@ void Tetris::update()
         t2_f = t1_f;
         t3_f = dt_f % 1000;
 
-        if( (block_move_y += piece_) < block_movelimit_y && move_s_box[ x + 1 ][ y ] == 0 )
+        if( /*(block_move_y += piece_) < block_movelimit_y && */move_s_box[ x + 1 ][ y ] == 0 )
         {
-            block_move_y += piece_;
+            //block_move_y += piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x + 1 ][ y ] = block_color_;
             x++;
         }
-        else if( (block_move_y += piece_) >= block_move_limit_y || move_s_box[ x + 1 ][ y ] >= 1 )
+        else if( /*(block_move_y += piece_) >= block_move_limit_y || */move_s_box[ x + 1 ][ y ] >= 1 )
         {
             blockerasers( x );
             partsinits();
@@ -283,50 +283,50 @@ void Tetris::singledraw()
 
 	 
 	RECT water_piece_range_;
-	water_piece_range_.top = 957.0F;
-	water_piece_range_.left = 688.0F;
-	water_piece_range_.right = 713.0F;
-	water_piece_range_.bottom = 982.0F;
+	water_piece_range_.top = 957.0L;
+	water_piece_range_.left = 688.0L;
+	water_piece_range_.right = 713.0L;
+	water_piece_range_.bottom = 982.0L;
 
 	RECT orange_piece_range_;
-	orange_piece_range_.top = 957.0F;
-	orange_piece_range_.left = 713.0F;
-	orange_piece_range_.right = 738.0F;
-	orange_piece_range_.bottom = 982.0F;
+	orange_piece_range_.top = 957.0L;
+	orange_piece_range_.left = 713.0L;
+	orange_piece_range_.right = 738.0L;
+	orange_piece_range_.bottom = 982.0L;
 
 	RECT green_piece_range_;
-	green_piece_range_.top = 957.0F;
-	green_piece_range_.left = 738.0F;
-	green_piece_range_.right = 763.0F;
-	green_piece_range_.bottom = 982.0F;
+	green_piece_range_.top = 957.0L;
+	green_piece_range_.left = 738.0L;
+	green_piece_range_.right = 763.0L;
+	green_piece_range_.bottom = 982.0L;
 
 	RECT red_piece_range_;
-	red_piece_range_.top = 957.0F;
-	red_piece_range_.left = 763.0F;
-	red_piece_range_.right = 788.0F;
-	red_piece_range_.bottom = 982.0F;
+	red_piece_range_.top = 957.0L;
+	red_piece_range_.left = 763.0L;
+	red_piece_range_.right = 788.0L;
+	red_piece_range_.bottom = 982.0L;
 
 	RECT blue_piece_range_;
-	blue_piece_range_.top = 957.0F;
-	blue_piece_range_.left = 788.0F;
-	blue_piece_range_.right = 813.0F;
-	blue_piece_range_.bottom = 982.0F;
+	blue_piece_range_.top = 957.0L;
+	blue_piece_range_.left = 788.0L;
+	blue_piece_range_.right = 813.0L;
+	blue_piece_range_.bottom = 982.0L;
 
 	RECT brown_piece_range_;
-	brown_piece_range_.top = 957.0F;
-	brown_piece_range_.left = 813.0F;
-	brown_piece_range_.right = 838.0F;
-	brown_piece_range_.bottom = 982.0F;
+	brown_piece_range_.top = 957.0L;
+	brown_piece_range_.left = 813.0L;
+	brown_piece_range_.right = 838.0L;
+	brown_piece_range_.bottom = 982.0L;
 
 	RECT purple_piece_range_;
-	purple_piece_range_.top = 957.0F;
-	purple_piece_range_.left = 838.0F;
-	purple_piece_range_.right = 863.0F;
-	purple_piece_range_.bottom = 982.0F;
+	purple_piece_range_.top = 957.0L;
+	purple_piece_range_.left = 838.0L;
+	purple_piece_range_.right = 863.0L;
+	purple_piece_range_.bottom = 982.0L;
 
 
 
-    for( int i = 19; i >= 0; i-- )                                // 全てのブロックの描画
+    for( int i = 20; i >= 0; i-- )                                // 全てのブロックの描画
     {
         for( int j = 0; j < 10; j++ )
         {
@@ -386,46 +386,46 @@ void Tetris::draw()
     Sprite::draw( texture_, Vector2( 0.0F, 0.0F ), &rect_view ); // 背景
 
 	RECT water_piece_range_;
-	water_piece_range_.top = 957.0F;
-	water_piece_range_.left = 688.0F;
-	water_piece_range_.right = 713.0F;
-	water_piece_range_.bottom = 982.0F;
+	water_piece_range_.top = 957.0L;
+	water_piece_range_.left = 688.0L;
+	water_piece_range_.right = 713.0L;
+	water_piece_range_.bottom = 982.0L;
 
 	RECT orange_piece_range_;
-	orange_piece_range_.top = 957.0F;
-	orange_piece_range_.left = 713.0F;
-	orange_piece_range_.right = 738.0F;
-	orange_piece_range_.bottom = 982.0F;
+	orange_piece_range_.top = 957.0L;
+	orange_piece_range_.left = 713.0L;
+	orange_piece_range_.right = 738.0L;
+	orange_piece_range_.bottom = 982.0L;
 
 	RECT green_piece_range_;
-	green_piece_range_.top = 957.0F;
-	green_piece_range_.left = 738.0F;
-	green_piece_range_.right = 763.0F;
-	green_piece_range_.bottom = 982.0F;
+	green_piece_range_.top = 957.0L;
+	green_piece_range_.left = 738.0L;
+	green_piece_range_.right = 763.0L;
+	green_piece_range_.bottom = 982.0L;
 
 	RECT red_piece_range_;
-	red_piece_range_.top = 957.0F;
-	red_piece_range_.left = 763.0F;
-	red_piece_range_.right = 788.0F;
-	red_piece_range_.bottom = 982.0F;
+	red_piece_range_.top = 957.0L;
+	red_piece_range_.left = 763.0L;
+	red_piece_range_.right = 788.0L;
+	red_piece_range_.bottom = 982.0L;
 
 	RECT blue_piece_range_;
-	blue_piece_range_.top = 957.0F;
-	blue_piece_range_.left = 788.0F;
-	blue_piece_range_.right = 813.0F;
-	blue_piece_range_.bottom = 982.0F;
+	blue_piece_range_.top = 957.0L;
+	blue_piece_range_.left = 788.0L;
+	blue_piece_range_.right = 813.0L;
+	blue_piece_range_.bottom = 982.0L;
 
 	RECT brown_piece_range_;
-	brown_piece_range_.top = 957.0F;
-	brown_piece_range_.left = 813.0F;
-	brown_piece_range_.right = 838.0F;
-	brown_piece_range_.bottom = 982.0F;
+	brown_piece_range_.top = 957.0L;
+	brown_piece_range_.left = 813.0L;
+	brown_piece_range_.right = 838.0L;
+	brown_piece_range_.bottom = 982.0L;
 
 	RECT purple_piece_range_;
-	purple_piece_range_.top = 957.0F;
-	purple_piece_range_.left = 838.0F;
-	purple_piece_range_.right = 863.0F;
-	purple_piece_range_.bottom = 982.0F;
+	purple_piece_range_.top = 957.0L;
+	purple_piece_range_.left = 838.0L;
+	purple_piece_range_.right = 863.0L;
+	purple_piece_range_.bottom = 982.0L;
 
 
     for( int i = 20; i >= 0; i-- )
