@@ -105,9 +105,9 @@ public:
 
 
 
-    //void partsinit();
+
     void partsinits();
-    void blockerasers(int x);
+    void blockerasers(); // 一行テトリス専用
 
 
     bool init();

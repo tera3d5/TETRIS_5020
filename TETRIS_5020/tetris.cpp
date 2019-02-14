@@ -71,8 +71,8 @@ void Tetris::partsinits()
     srand( (unsigned int)time( NULL ) );
     block_color_ = (rand() % 7) + 1;
 
-    //block_move_x = block_move_x_init;
-    //block_move_y = block_move_y_init;
+    block_move_x = block_move_x_init;
+    block_move_y = block_move_y_init;
 
 
     x = 0, y = 5;
@@ -153,21 +153,22 @@ void Tetris::update()
     dt_f = (t1_f - t2_f) + t3_f;
 
 
-    if( (key.Left || pad.dpad.left) &&/* (block_move_x > map_limit_left ) &&*/ move_s_box[ x ][ y - 1 ] == 0 ) // case 0
+    if( (key.Left || pad.dpad.left) && move_s_box[ x ][ y - 1 ] == 0 ) // case 0
     {
 
         if( move_key_ == 0 )
         {
-            //block_move_x -= piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x ][ y - 1 ] = block_color_;
+			y--;
         }
+		
             
         move_key_ = 1;
 
 
     }
-    if( (key.Left || pad.dpad.left) &&/* (block_move_x > map_limit_left) &&*/ move_s_box[ x ][ y - 1 ] == 0 && move_key_ == 1 )
+    if( (key.Left || pad.dpad.left) && move_s_box[ x ][ y - 1 ] == 0 && move_key_ == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -178,35 +179,35 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( /*block_move_x > map_limit_left &&*/ move_s_box[ x ][ y - 1 ] == 0 )
+            if( move_s_box[ x ][ y - 1 ] == 0 )
             {
-                //block_move_x -= piece_;
                 move_s_box[ x ][ y ] = 0;
                 move_s_box[ x ][ y - 1 ] = block_color_;
+				y--;
             }
         }
     }
-    else if( !(key.Left || pad.dpad.left) )
+    if( !(key.Left || pad.dpad.left) )
     {
         move_key_ = 0;
     }
 
 
 
-    if( (key.Right || pad.dpad.right) &&/* (block_move_x < map_limit_right)&&*/ move_s_box[ x ][ y + 1 ] == 0 ) // 1
+    if( (key.Right || pad.dpad.right) &&move_s_box[ x ][ y + 1 ] == 0 ) // 1
     {
 
         if( move_key_ == 0 )
         {
-            //block_move_x += piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x ][ y + 1 ] = block_color_;
+			y++;
         }
         move_key_ = 1;
 
 
     }
-    if( (key.Right || pad.dpad.right) &&/* (block_move_x < map_limit_right) &&*/ move_s_box[ x ][ y + 1 ] == 0 && move_key_ == 1 )
+    if( (key.Right || pad.dpad.right) && move_s_box[ x ][ y + 1 ] == 0 && move_key_ == 1 )
     {
         t1_m = timeGetTime();
         dt_m = (t1_m - t2_m) + t3_m;
@@ -217,15 +218,15 @@ void Tetris::update()
             t2_m = t1_m;
             t3_m = dt_m % 250;
 
-            if( /*block_move_x < map_limit_right &&*/ move_s_box[ x ][ y + 1 ] == 0 )
+            if( move_s_box[ x ][ y + 1 ] == 0 )
             {
-                //block_move_x += piece_;
                 move_s_box[ x ][ y ] = 0;
                 move_s_box[ x ][ y + 1 ] = block_color_;
+				y++;
             }
         }
     }
-    else if( !(key.Right || pad.dpad.right) )
+    if( !(key.Right || pad.dpad.right) )
     {
         move_key_ = 0;
     }
@@ -251,29 +252,24 @@ void Tetris::update()
 
 
 
-    if( dt_f > 1000 )
+    if( dt_f > 1000 )		// Ž©‘R—Ž‰º
     {
-        t2_f = t1_f;
-        t3_f = dt_f % 1000;
+		t2_f = t1_f;
+		t3_f = dt_f % 1000;
 
-        if( /*(block_move_y += piece_) < block_movelimit_y && */move_s_box[ x + 1 ][ y ] == 0 )
+        if( move_s_box[ x + 1 ][ y ] == 0 )
         {
-            //block_move_y += piece_;
             move_s_box[ x ][ y ] = 0;
             move_s_box[ x + 1 ][ y ] = block_color_;
             x++;
-        }
-        else if( /*(block_move_y += piece_) >= block_move_limit_y || */move_s_box[ x + 1 ][ y ] >= 1 )
+        }	
+        if( move_s_box[ x + 1 ][ y ] >= 1 || x >= 20)
         {
-            blockerasers( x );
+            blockerasers();
             partsinits();
         }
 
     }
-
-
-
-
 }
 
 
@@ -483,27 +479,17 @@ void Tetris::draw()
 
 
 
-void Tetris::blockerasers(int x)// ŒÅ’è‚µ‚½‚Æ‚±‚ë‚©‚ç4s•ª‘–¸‚µ‚ÄÁ‚·
+void Tetris::blockerasers()// ŒÅ’è‚µ‚½‚Æ‚±‚ë‚©‚ç1s•ª‘–¸‚µ‚ÄÁ‚·
 {
     int count = 0;
-    int y = x;
-    for( ; x > (y - 4); x-- )
-    {
-        for( int i = 0; i < 10; i++ )
-            if( move_s_box[ x ][ i ] >= 1 )
-            {
-                count++;
+	for (int i = 0;i < 10;i++)
+		if (move_s_box[20][i] >= 1)
+			count++;
 
-                if( count == 10 )
-                {
-                    for( int i = 0; i < 10; i++ )
-                        move_s_box[ x ][ i ] = 0;
+	if (count == 9)
+		for (int i = 20;i >=0;i--)
+			for(int j=0;j<10;j++)
+			move_s_box[i][j] = move_s_box[i-1][j];
 
-                    for( int i = 0; i < 10; i++ )
-                        move_s_box[ x ][ i ] = move_s_box[ x - 1 ][ i ];
 
-                }
-            }
-        count = 0;
-    }  
 }
