@@ -264,11 +264,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdSho
                 case kGameUpdate:
                     // ゲームクラス更新
                     tetris.update();
-                        if( tetris.tetris_key == 1 )
-                        {
-                            tetris.destroy();
-                            work_no = kResultInit;// kResultInit;
-                        }
+                        
+                           // work_no = kResultInit;// kResultInit;
+                        
                     break;
 
 
